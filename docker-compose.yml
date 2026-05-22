@@ -1,0 +1,90 @@
+version: "3.9"
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  CardioFusion – Docker Compose (Cloud-Ready)
+#  Runs three services: Python AI · Node Gateway · React Dashboard
+#  All secrets and tunables injected via .env (see .env.example)
+# ══════════════════════════════════════════════════════════════════════════════
+
+services:
+
+  # ── 1. Python AI Inference Service ─────────────────────────────────────────
+  backend-ai:
+    build:
+      context: ./backend-ai
+      dockerfile: Dockerfile
+    container_name: cardiofusion-ai
+    restart: unless-stopped
+    environment:
+      - GUNICORN_WORKERS=${GUNICORN_WORKERS:-4}
+      - TF_CPP_MIN_LOG_LEVEL=2
+    volumes:
+      # Mount artefacts directory so model can be updated without rebuild
+      - ./backend-ai/artefacts:/app/artefacts:ro
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s        # TF model load can be slow
+    networks:
+      - cardiofusion-net
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: "2.0"
+
+  # ── 2. Node.js Clinical Gateway ────────────────────────────────────────────
+  backend-gateway:
+    build:
+      context: ./backend-gateway
+      dockerfile: Dockerfile
+    container_name: cardiofusion-gateway
+    restart: unless-stopped
+    environment:
+      - PORT=3001
+      - AI_SERVICE_URL=http://backend-ai:8000
+      - FRONTEND_ORIGIN=${FRONTEND_ORIGIN:-*}
+      - NODE_ENV=production
+    depends_on:
+      backend-ai:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3001/health"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - cardiofusion-net
+
+  # ── 3. React Dashboard ──────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cardiofusion-ui
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    depends_on:
+      backend-gateway:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:80"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    networks:
+      - cardiofusion-net
+
+networks:
+  cardiofusion-net:
+    driver: bridge
+    name: cardiofusion-network
+
+volumes:
+  artefacts:
+    name: cardiofusion-artefacts

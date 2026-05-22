@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+*.pkl          # scalers contain fitted data – commit separately or via DVC
+*.keras        # large model files – use Git LFS or DVC
+
+# Artefacts (generated – do not commit to git)
+backend-ai/artefacts/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# React
+frontend/build/
+
+# Environment
+.env
+*.env.local
+
+# Docker
+.dockerignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
