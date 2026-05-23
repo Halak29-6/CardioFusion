@@ -2,13 +2,12 @@
 
 **Multimodal Heart Failure Clinical Decision Support System**
 
-[![CI/CD](https://github.com/your-org/cardiofusion/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/your-org/cardiofusion/actions)
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.15-orange)
 ![React](https://img.shields.io/badge/React-18-61DAFB)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-> **Research & Educational Use Only.** Not for clinical deployment without regulatory clearance.
+> **For Research & Educational Use Only.** Not for clinical deployment without regulatory clearance.
 
 ---
 
