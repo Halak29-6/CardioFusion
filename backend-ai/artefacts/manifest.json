@@ -1,0 +1,27 @@
+{
+  "model_path": "C:\\Users\\Admin\\Downloads\\cardiofusion\\cardiofusion\\ml-training\\artefacts\\multimodal_hf_prototype.keras",
+  "ecg_scaler": "C:\\Users\\Admin\\Downloads\\cardiofusion\\cardiofusion\\ml-training\\artefacts\\ecg_scaler.pkl",
+  "ehr_scaler": "C:\\Users\\Admin\\Downloads\\cardiofusion\\cardiofusion\\ml-training\\artefacts\\ehr_scaler.pkl",
+  "test_metrics": {
+    "loss": 0.43286511301994324,
+    "compile_metrics": 1.0
+  },
+  "ecg_shape": [
+    1000,
+    1
+  ],
+  "n_ehr_feats": 11,
+  "ehr_features": [
+    "age",
+    "sex",
+    "height",
+    "weight",
+    "ejection_fraction",
+    "serum_creatinine",
+    "sodium",
+    "bp_systolic",
+    "bp_diastolic",
+    "smoking_status",
+    "bmi"
+  ]
+}

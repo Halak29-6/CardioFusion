@@ -9,11 +9,11 @@ dist/
 build/
 .venv/
 venv/
-*.pkl          # scalers contain fitted data – commit separately or via DVC
-*.keras        # large model files – use Git LFS or DVC
+# *.pkl          # scalers contain fitted data – commit separately or via DVC
+# *.keras        # large model files – use Git LFS or DVC
 
-# Artefacts (generated – do not commit to git)
-backend-ai/artefacts/
+# # Artefacts (generated – do not commit to git)
+# backend-ai/artefacts/
 
 # Node
 node_modules/
